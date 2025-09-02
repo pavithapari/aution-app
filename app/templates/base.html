@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Auction App{% endblock %}</title>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <a href="#">Home</a> |
+        <a href="#">Create Auction</a> |
+        <a href="#">Login</a> |
+        <a href="#">Register</a>
+    </nav>
+    <hr>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Page Content -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <hr>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Auction App</p>
+    </footer>
+</body>
+</html>
