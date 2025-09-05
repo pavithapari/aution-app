@@ -2,17 +2,19 @@
 from flask import Blueprint,render_template,flash
 from app.models import Buyers
 from app import db
+from app.buyers.forms import BuyerReg_form
 buyers=Blueprint('buyers',__name__)
 
 
-@buyers.route('/buyers/dashboard')
+@buyers.route('/buyers/register')
 def register():
-    buyer=Buyers(username="Kaviya Maaran",email="kaviya@sun.com")
-    db.session.add(buyer)
-    db.session.commit()
-    flash("Buyer added!",'success')
+    form=BuyerReg_form()
+    if form.validate_on_submit():
+        buyer=Buyers(username=form.name.data,email=form.email.data)
+        db.session.add(buyer)
+        db.session.commit()
 
-    return render_template('show.html',buyer=buyer)
+    return render_template('buyer_register.html',buyer_form=form)
 
 
 @buyers.route('/buyers/show')

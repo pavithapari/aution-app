@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %} Home {% endblock %}
+{% block content %}
+
+<div class="container p-4 m-3">
+  <div class="active-bid-card  mt-3">
+    <img src="https://via.placeholder.com/300x200.png?text=Active+Item" alt="Active Item">
+    <div>
+      <h2>Vintage Camera</h2>
+      <p>A classic 1960s film camera in excellent condition. Perfect for collectors.</p>
+      <p><strong>Current Bid:</strong> ₹12,500</p>
+      <p><strong>Ends in:</strong> 2h 15m</p>
+      <a href="" class="btn btn-primary">Place Bid</a>
+    </div>
+  </div>
+
+  <!-- Finished Bids Grid -->
+  <h3 class="mb-3">Finished Auctions</h3>
+  <div class="finished-bids-grid">
+    <div class="finished-card">
+      <img src="https://via.placeholder.com/250x150.png?text=Item+1" alt="Item 1">
+      <h4>Smartphone - Galaxy S10</h4>
+      <p>Final Bid: ₹28,000</p>
+      <p>Winner: Kaaviya</p>
+    </div>
+    <div class="finished-card">
+      <img src="https://via.placeholder.com/250x150.png?text=Item+2" alt="Item 2">
+      <h4>Bluetooth Headphones</h4>
+      <p>Final Bid: ₹4,500</p>
+      <p>Winner: Arjun</p>
+    </div>
+    <div class="finished-card">
+      <img src="https://via.placeholder.com/250x150.png?text=Item+3" alt="Item 3">
+      <h4>Antique Vase</h4>
+      <p>Final Bid: ₹15,000</p>
+      <p>Winner: Meera</p>
+    </div>
+    <div class="finished-card">
+      <img src="https://via.placeholder.com/250x150.png?text=Item+4" alt="Item 4">
+      <h4>Gaming Console</h4>
+      <p>Final Bid: ₹22,000</p>
+      <p>Winner: Rahul</p>
+    </div>
+    <div class="finished-card">
+      <img src="https://via.placeholder.com/250x150.png?text=Item+5" alt="Item 5">
+      <h4>Leather Backpack</h4>
+      <p>Final Bid: ₹3,200</p>
+      <p>Winner: Sneha</p>
+    </div>
+  </div>
+  </div>
+
+{% endblock %}

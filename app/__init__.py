@@ -11,7 +11,10 @@ def create_app():
     db.init_app(app)
     from .main.routes import main
     from .buyers.routes import buyers
+    from .sellers.routes import sellers
+
     app.register_blueprint(main)
     app.register_blueprint(buyers)
+    app.register_blueprint(sellers)
     return app
 

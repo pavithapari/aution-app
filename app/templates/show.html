@@ -1,21 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Buyer Dashboard</title>
-</head>
-<body>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+{% extends "base.html" %}
+{% block title %} Buyer DashBoard {% endblock %}
+{% block content %}
 
-    <h1>Buyer Registered Successfully</h1>
-    <p><strong>Name:</strong> {{ buyer.username }}</p>
-    <p><strong>Email:</strong> {{ buyer.email }}</p>
-</body>
-</html>
+
+
