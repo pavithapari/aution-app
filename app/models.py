@@ -45,3 +45,12 @@ class Sellers(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     username = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(120), nullable=False)
+
+
+class objects(db.Model):
+    id=db.Column(db.Integer,primary_key=True)
+    name=db.Column(db.String(20),nullable=False)
+    img=db.Column(db.String(100))
+    base_price=db.Column(db.Integer)
+    curr_price=db.Column(db.Integer)
+    no_of_people=db.Column(db.Integer)
