@@ -32,6 +32,7 @@ Bid
 * `auction_id` (FK → Auction.id)
 """
 from app import db
+from datetime import datetime
 
 
 class Buyers(db.Model):
@@ -54,3 +55,26 @@ class objects(db.Model):
     base_price=db.Column(db.Integer)
     curr_price=db.Column(db.Integer)
     no_of_people=db.Column(db.Integer)
+
+
+
+
+
+class Auction(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    starting_price = db.Column(db.Float, nullable=False)
+    current_price = db.Column(db.Float, nullable=False)
+    image_url = db.Column(db.String(250))
+    status = db.Column(db.String(20), default="active")  # active / closed / cancelled
+    end_time = db.Column(db.DateTime, nullable=False)
+    seller_id = db.Column(db.Integer, db.ForeignKey('sellers.id'), nullable=False)
+    winner_id = db.Column(db.Integer, db.ForeignKey('buyers.id'), nullable=True)
+
+class Bid(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    amount = db.Column(db.Float, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    bidder_id = db.Column(db.Integer, db.ForeignKey('buyers.id'), nullable=False)
+    auction_id = db.Column(db.Integer, db.ForeignKey('auction.id'), nullable=False)

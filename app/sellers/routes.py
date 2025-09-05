@@ -1,9 +1,53 @@
-from flask import Blueprint,render_template,flash,redirect,url_for
-from app.models import Sellers,objects
+from flask import Blueprint,render_template,session,flash,redirect,url_for,request
+from app.models import Sellers,objects,Auction
 from app import db
 from app.sellers.forms import SellerReg_form,obj_form
 sellers=Blueprint('sellers',__name__)
 
+
+def login_required(f):
+    from functools import wraps
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session or session.get('role') != 'seller':
+            flash("Please login as seller", "warning")
+            return redirect(url_for('auth.login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+@sellers.route('/seller/dashboard')
+@login_required
+def dashboard():
+    return render_template("seller_dashboard.html")
+
+@sellers.route('/seller/auctions')
+@login_required
+def my_auctions():
+    user_id = session['user_id']
+    auctions = Auction.query.filter_by(seller_id=user_id).all()
+    return render_template("seller_auctions.html", auctions=auctions)
+
+@sellers.route('/seller/auction/create', methods=['GET','POST'])
+@login_required
+def create_auction():
+    # Implement form to create auction
+    return render_template("seller_create_auction.html")
+
+@sellers.route('/seller/auction/<int:id>/edit', methods=['GET','POST'])
+@login_required
+def edit_auction(id):
+    # Implement form to edit auction
+    return f"Edit auction {id}"
+
+
+@sellers.route('/seller/auction/<int:id>/close')
+@login_required
+def close_auction(id):
+    auction = Auction.query.get_or_404(id)
+    auction.status = "closed"
+    db.session.commit()
+    flash("Auction closed", "success")
+    return redirect(url_for('sellers.my_auctions'))
 
 @sellers.route('/sellers/register')
 def register():
