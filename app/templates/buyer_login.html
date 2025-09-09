@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %} Register {% endblock %}
+{% block content %}
+<div class="d-flex justify-content-center p-4">
+  <div class="p-4 rounded shadow bg-white" style="width: 800px;">
+    <h3 class="mb-4 border-bottom pb-2">Buyer Login</h3>
+    <form method="POST" action="">
+      {{ form.hidden_tag() }}
+
+      <!-- Email Field -->
+      <div class="form-floating mb-3">
+        {{ form.email(class="form-control", id="buyerEmail", placeholder="Email") }}
+        <label for="buyerEmail">Email</label>
+        {% for error in form.email.errors %}
+          <div class="text-danger small mt-1">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-floating mb-3">
+        {{ form.password(class="form-control", id="buyerpassword", placeholder="Password") }}
+        <label for="buyerpassword">Password</label>
+        {% for error in form.password.errors %}
+          <div class="text-danger small mt-1">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Submit Button -->
+      {{ form.submit(class="btn btn-success w-100") }}
+    </form>
+
+    <p class="text-muted mt-3">
+      Don't have an account? Please <a href="{{ url_for('buyers.register') }}">register!</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

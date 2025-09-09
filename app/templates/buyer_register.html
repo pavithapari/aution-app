@@ -2,21 +2,53 @@
 {% block title %} Register {% endblock %}
 {% block content %}
 <div class="d-flex justify-content-center p-4">
-      <div class="p-4 rounded shadow bg-white" style="width: 800px;">
-        <h3 class="mb-4 border-bottom pb-2">Buyer Registration</h3>
-        <form method="POST" action="">
-          {{ buyer_form.hidden_tag() }}
-          <div class="form-floating mb-3">
-            {{ buyer_form.name(class="form-control", id="buyerName", placeholder="Name") }}
-            <label for="buyerName">Name</label>
-          </div>
-          <div class="form-floating mb-3">
-            {{ buyer_form.email(class="form-control", id="buyerEmail", placeholder="Email") }}
-            <label for="buyerEmail">Email</label>
-          </div>
-          {{ buyer_form.submit(class="btn btn-success w-100") }}
-        </form>
-      </div>
-    </div>
+  <div class="p-4 rounded shadow bg-white" style="width: 800px;">
+    <h3 class="mb-4 border-bottom pb-2">Buyer Registration</h3>
+    <form method="POST" action="">
+      {{ buyer_form.hidden_tag() }}
 
+      <!-- Name Field -->
+      <div class="form-floating mb-3">
+        {{ buyer_form.name(class="form-control", id="buyerName", placeholder="Name") }}
+        <label for="buyerName">Name</label>
+        {% for error in buyer_form.name.errors %}
+          <div class="text-danger small mt-1">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Email Field -->
+      <div class="form-floating mb-3">
+        {{ buyer_form.email(class="form-control", id="buyerEmail", placeholder="Email") }}
+        <label for="buyerEmail">Email</label>
+        {% for error in buyer_form.email.errors %}
+          <div class="text-danger small mt-1">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-floating mb-3">
+        {{ buyer_form.password(class="form-control", id="buyerpassword", placeholder="Password") }}
+        <label for="buyerpassword">Password</label>
+        {% for error in buyer_form.password.errors %}
+          <div class="text-danger small mt-1">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Confirm Password Field -->
+      <div class="form-floating mb-3">
+        {{ buyer_form.con_password(class="form-control", id="buyerconpassword", placeholder="Confirm Password") }}
+        <label for="buyerconpassword">Confirm Password</label>
+        {% for error in buyer_form.con_password.errors %}
+          <div class="text-danger small mt-1">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Submit Button -->
+      {{ buyer_form.submit(class="btn btn-success w-100") }}
+    </form>
+        <p class="text-muted mt-3">
+      Do you an account? Please <a href="{{ url_for('buyers.login') }}">Login!</a>
+    </p>
+  </div>
+</div>
 {% endblock %}
