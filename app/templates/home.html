@@ -2,6 +2,30 @@
 {% block title %} Home {% endblock %}
 
 {% block content %}
+     <nav class="navbar navbar-expand-lg navbar-light nav">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><strong>Auction App</strong></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ url_for('main.home') }}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ url_for('sellers.add_item') }}">Add a item</a>
+        </li>
+
+              <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Register
+          </a>
+        <li>
+      </ul>
+    </div>
+  </div>
+</nav>
 <!-- Hero Section for Trending Bid -->
 <div class="p-5 mb-4 bg-light rounded-3">
   <div class="container my-5">

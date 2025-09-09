@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Auction App{% endblock %}
+
+{% block content %}
+
+    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+      <div class="card shadow" style="width: 100%; max-width: 400px;">
+        <div class="card-body text-center">
+          <h3 class="card-title mb-3">Welcome to the Real-Time Auction App 🛍️</h3>
+          <p class="card-text mb-4">Buy unique items or sell to a live audience. Choose your role to continue:</p>
+
+          <form method="POST">
+            <select name="role" class="form-select mb-3" required>
+              <option value="" disabled selected>Select your role</option>
+              <option value="buyers">Buyer</option>
+              <option value="sellers">Seller</option>
+            </select>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+
+{% endblock %}
