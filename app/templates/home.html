@@ -47,7 +47,7 @@
       <img src="{{ o.img }}" alt="{{ o.name }}" class="img-fluid rounded" style="width: 100%; aspect-ratio: 1 / 1; object-fit: contain;">
       <div class="card-body">
         <h4 class="card-title">{{ o.name }}</h4>
-        <p class="card-text">Current Bid: ₹{{ o.curr_price }}</p>
+        <p class="card-text">Base Bid: ₹{{ o.curr_price }}</p>
         <a href="{{ url_for('bids.join_bid', image=o.img) }}" class="btn btn-primary btn-lg mt-3">Join the Bid Now</a>
       </div>
     </div>
