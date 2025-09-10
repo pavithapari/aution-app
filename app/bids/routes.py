@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request
+from flask_login import current_user,login_required
 from flask_socketio import emit
 from app import socketio
 from collections import defaultdict
@@ -8,10 +9,14 @@ bids = Blueprint('bids', __name__)
 # Store auction state per image
 auctions = defaultdict(lambda: {'highest_bid': 0, 'highest_bidder': None})
 
+
+
 @bids.route('/bids/')
+@login_required
 def join_bid():
     image = request.args.get('image')
-    return render_template('bids.html', image=image)
+    print(f"Curent user: {current_user} ")
+    return render_template('bids.html', image=image,current_user=current_user)
 
 @socketio.on('joinAuction')
 def handle_join(data):

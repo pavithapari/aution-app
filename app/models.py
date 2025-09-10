@@ -32,9 +32,9 @@ Bid
 * `auction_id` (FK → Auction.id)
 """
 from app import db
+from flask_login import UserMixin
 
-
-class Buyers(db.Model):
+class Buyers(db.Model,UserMixin):
     id=db.Column(db.Integer,primary_key=True)
     username = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(120), nullable=False)
@@ -42,13 +42,13 @@ class Buyers(db.Model):
 
 
 
-class Sellers(db.Model):
+class Sellers(db.Model,UserMixin):
     id=db.Column(db.Integer,primary_key=True)
     username = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(120), nullable=False)
 
 
-class objects(db.Model):
+class objects(db.Model,UserMixin):
     id=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String(20),nullable=False)
     img=db.Column(db.String(100))

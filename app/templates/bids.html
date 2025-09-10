@@ -12,7 +12,7 @@
   <div class="mt-4 text-center">
     <p>Highest Bid: ₹<span id="highestBid">0</span> by <span id="highestBidder">None</span></p>
 
-    <input type="text" id="username" placeholder="Your name" class="form-control mb-2" />
+    <input type="text" id="username" placeholder="Your name" class="form-control mb-2" value="{{ current_user.username if current_user and current_user.username else '' }}" readonly />
     <input type="number" id="bidAmount" placeholder="Your bid" class="form-control mb-2" />
     <button onclick="placeBid()" class="btn btn-primary">Place Bid</button>
 
