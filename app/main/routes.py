@@ -11,7 +11,7 @@ def index():
     if request.method == 'POST':
         role = request.form['role']
         session['role'] = role
-        return redirect(f'/{role}/login')
+        return redirect(f'/{role}/home')
     return render_template('index.html')
 @main.route('/buyers/home')
 def home():

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Live Auction{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">Live Auction Room</h2>
+
+  <div class="text-center">
+    <img src="{{ image }}" alt="Auction Item" class="img-fluid rounded shadow" style="max-width: 300px;" />
+  </div>
+
+  <div class="mt-4 text-center">
+    <p>Highest Bid: ₹<span id="highestBid">0</span> by <span id="highestBidder">None</span></p>
+
+    <input type="text" id="username" placeholder="Your name" class="form-control mb-2" />
+    <input type="number" id="bidAmount" placeholder="Your bid" class="form-control mb-2" />
+    <button onclick="placeBid()" class="btn btn-primary">Place Bid</button>
+
+    <p id="message" class="mt-3 text-danger"></p>
+  </div>
+</div>
+
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<script>
+  const socket = io();
+  const imageId = "{{ image }}";
+
+  socket.emit('joinAuction', { image_id: imageId });
+
+  socket.on('bidUpdate', ({ highest_bid, highest_bidder }) => {
+    document.getElementById('highestBid').textContent = highest_bid;
+    document.getElementById('highestBidder').textContent = highest_bidder || 'None';
+    document.getElementById('message').textContent = '';
+  });
+
+  socket.on('bidRejected', (msg) => {
+    document.getElementById('message').textContent = msg;
+  });
+
+  function placeBid() {
+    const username = document.getElementById('username').value;
+    const amount = document.getElementById('bidAmount').value;
+    socket.emit('newBid', { image_id: imageId, username, amount });
+  }
+</script>
+{% endblock %}
