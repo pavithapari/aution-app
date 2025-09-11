@@ -32,7 +32,7 @@ def login():
 @sellers.route('/sellers/home')
 def home():
     all_items = objects.query.all()
-    return render_template('seller_dashboard.html', items=all_items)
+    return render_template('seller_dashboard.html', items=all_items,Buyers=Buyers)
 
 @sellers.route('/sellers/add-item',methods=['GET','POST'])
 def add_item():
