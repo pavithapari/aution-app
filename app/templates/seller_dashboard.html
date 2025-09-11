@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %} Seller Dashboard {% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="mb-4">
+    <a href="{{ url_for('sellers.add_item') }}" class="btn btn-primary">Add New Auction</a>
+  </div>
+  <h2 class="mb-4">Your Auction Items</h2>
+  <div class="row">
+    {% for item in items %}
+    <div class="col-md-4 mb-3">
+      <div class="card">
+        <img src="{{ item.img }}" class="card-img-top" alt="{{ item.name }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ item.name }}</h5>
+          <p>Base Price: ₹{{ item.base_price }}</p>
+          <p>
+            Current Price: ₹<span id="price-{{ item.id }}">{{ item.curr_price }}</span>
+          </p>
+          <p>
+            Status: 
+            <span id="status-{{ item.id }}">
+              {% if item.status == 'active' %}
+                Active
+              {% else %}
+                Closed
+                {% if item.winner_id %}
+                    {% set winner = Buyers.query.get(item.winner_id) %}
+                    <br>Winner: {{ winner.username if winner else "N/A" }}
+                {% endif %}
+              {% endif %}
+            </span>
+          </p>
+
+          {% if item.status == 'active' %}
+          <form method="POST" action="{{ url_for('sellers.end_auction', item_id=item.id) }}">
+            <button type="submit" class="btn btn-danger w-100">End Auction</button>
+          </form>
+          {% else %}
+          <button class="btn btn-secondary w-100" disabled>Auction Ended</button>
+          {% endif %}
+            <a href="{{ url_for('sellers.edit_item', item_id=item.id) }}" class="btn btn-warning w-100 mt-2">Edit</a>
+            
+            <a href="{{ url_for('sellers.delete_item', item_id=item.id) }}" class="btn btn-danger w-100 mt-2" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<script>
+  const socket = io();
+
+  // Listen for updates to any auction
+  socket.on('bidUpdate', ({ item_id, highest_bid, highest_bidder }) => {
+    const priceEl = document.getElementById(`price-${item_id}`);
+    if (priceEl) {
+      priceEl.textContent = highest_bid;
+    }
+  });
+
+  // When auction ends
+  socket.on('auctionEnded', ({ item_id, winner, final_bid }) => {
+    const statusEl = document.getElementById(`status-${item_id}`);
+    if (statusEl) {
+      statusEl.innerHTML = `Closed - Winner: ${winner || "None"} (₹${final_bid || 0})`;
+    }
+  });
+</script>

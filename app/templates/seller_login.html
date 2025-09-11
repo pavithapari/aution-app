@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Seller Login{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-center p-4 ">
+  <div class="p-4 bg-white rounded shadow" style="width: 800px;">
+
+        <h3 class="mb-4 border-bottom pb-2">Seller Login</h3>
+        <form method="POST" action="">
+          {{ seller_form.hidden_tag() }}
+          <div class="form-floating mb-3">
+            {{ seller_form.email(class="form-control", id="sellerEmail", placeholder="Email") }}
+            <label for="sellerEmail">Email</label>
+          </div>
+          {{ seller_form.submit(class="btn btn-success w-100") }}
+        </form>
+      </div>
+      </div>
+
+{% endblock %}
