@@ -67,6 +67,13 @@ def edit_item(item_id):
 
     return render_template('object_edit.html', form=form, object=object)
 
+def delete_item(item_id):
+    object = objects.query.get_or_404(item_id)
+    db.session.delete(object)
+    db.session.commit()
+    flash("The item has been deleted successfully!", "info")
+    return redirect(url_for('sellers.home'))
+
 
 @sellers.route('/sellers/end-auction/<int:item_id>', methods=['POST'])
 def end_auction(item_id):
