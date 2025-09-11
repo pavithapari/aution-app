@@ -67,6 +67,7 @@ def edit_item(item_id):
 
     return render_template('object_edit.html', form=form, object=object)
 
+@sellers.route('/sellers/delete-item/<int:item_id>', methods=['POST', 'GET'])
 def delete_item(item_id):
     object = objects.query.get_or_404(item_id)
     db.session.delete(object)
