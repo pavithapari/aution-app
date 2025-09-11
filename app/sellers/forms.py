@@ -8,6 +8,9 @@ class SellerReg_form(FlaskForm):
     submit=SubmitField('Register')
 
 
+class SellerLog_form(FlaskForm):
+    email=StringField("Email",validators=[DataRequired(),Email()])
+    submit=SubmitField('Login')
 
 
 class obj_form(FlaskForm):

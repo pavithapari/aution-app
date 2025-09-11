@@ -10,11 +10,11 @@
   </div>
 
   <div class="mt-4 text-center">
-    <p>Highest Bid: ₹<span id="highestBid">0</span> by <span id="highestBidder">None</span></p>
+    <p>Highest Bid: ₹<span id="highestBid">{{ initial_bid }}</span> by <span id="highestBidder">{{ initial_bidder or 'None' }}</span></p>
 
     <input type="text" id="username" placeholder="Your name" class="form-control mb-2" value="{{ current_user.username if current_user and current_user.username else '' }}" readonly />
     <input type="number" id="bidAmount" placeholder="Your bid" class="form-control mb-2" />
-    <button onclick="placeBid()" class="btn btn-primary">Place Bid</button>
+    <button id="bidBtn" onclick="placeBid()" class="btn btn-primary">Place Bid</button>
 
     <p id="message" class="mt-3 text-danger"></p>
   </div>
@@ -23,24 +23,51 @@
 <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 <script>
   const socket = io();
-  const imageId = "{{ image }}";
+  const itemId = "{{ item_id }}";  // USE ITEM ID
 
-  socket.emit('joinAuction', { image_id: imageId });
+  let auctionActive = true;
 
+  // Join auction room
+  socket.emit('joinAuction', { image_id: itemId });
+
+  // Update bids live
   socket.on('bidUpdate', ({ highest_bid, highest_bidder }) => {
     document.getElementById('highestBid').textContent = highest_bid;
     document.getElementById('highestBidder').textContent = highest_bidder || 'None';
     document.getElementById('message').textContent = '';
   });
 
+  // Bid rejected (auction ended or invalid)
   socket.on('bidRejected', (msg) => {
     document.getElementById('message').textContent = msg;
+    if(msg === 'Auction has ended.') {
+        auctionActive = false;
+        document.getElementById('bidAmount').disabled = true;
+        document.getElementById('bidBtn').disabled = true;
+    }
   });
 
+  // Auction ended by seller (real-time)
+  socket.on('auctionEnded', (data) => {
+    if(data.item_id == itemId) {
+        auctionActive = false;
+        document.getElementById('bidAmount').disabled = true;
+        document.getElementById('bidBtn').disabled = true;
+        document.getElementById('message').textContent = `Auction ended! Winner: ${data.winner} with ₹${data.final_bid}`;
+        document.getElementById('highestBid').textContent = data.final_bid;
+        document.getElementById('highestBidder').textContent = data.winner;
+    }
+  });
+
+  // Place a new bid
   function placeBid() {
+    if(!auctionActive) {
+        document.getElementById('message').textContent = 'Auction has ended.';
+        return;
+    }
     const username = document.getElementById('username').value;
     const amount = document.getElementById('bidAmount').value;
-    socket.emit('newBid', { image_id: imageId, username, amount });
+    socket.emit('newBid', { image_id: itemId, username, amount });
   }
 </script>
 {% endblock %}
