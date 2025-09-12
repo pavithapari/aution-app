@@ -13,7 +13,10 @@
           </div>
           {{ seller_form.submit(class="btn btn-success w-100") }}
         </form>
-      </div>
+        <p class="text-muted mt-3">
+  Don't have an account? Please <a href="{{ url_for('sellers.register') }}">register!</a>
+</p>
+      
       </div>
 
 {% endblock %}

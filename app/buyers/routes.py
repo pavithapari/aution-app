@@ -14,7 +14,7 @@ def register():
         buyer=Buyers(username=form.name.data,email=form.email.data,password=bcrypt.generate_password_hash(form.password.data))
         db.session.add(buyer)
         db.session.commit()
-        return redirect(url_for('main.home'))
+        return redirect(url_for('buyers.login'))
 
     return render_template('buyer_register.html',buyer_form=form)
 

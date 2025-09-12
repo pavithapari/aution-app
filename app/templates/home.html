@@ -1,11 +1,14 @@
 {% extends "base.html" %}
-{% block title %} Home {% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
-     <nav class="navbar navbar-expand-lg navbar-light nav">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#"><strong>Auction App</strong></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand fw-bold text-primary" href="#">Auction App</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -13,46 +16,46 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{{ url_for('main.home') }}">Home</a>
         </li>
-        </ul>
+      </ul>
+      <div class="d-flex ms-auto">
+        <a class="btn btn-outline-secondary me-2" href="{{ url_for('sellers.home') }}">Sellers</a>
         {% if current_user.is_authenticated %}
-        <div class="d-flex ms-auto">
           <a class="btn btn-outline-primary me-2" href="{{ url_for('buyers.logout') }}">Logout</a>
-        </div>
         {% else %}
-        <div class="d-flex ms-auto">
           <a class="btn btn-outline-primary me-2" href="{{ url_for('buyers.login') }}">Login</a>
           <a class="btn btn-primary" href="{{ url_for('buyers.register') }}">Register</a>
-        </div>
         {% endif %}
+      </div>
     </div>
   </div>
 </nav>
-<!-- Hero Section for Trending Bid -->
-<div class="p-5 mb-4 bg-light rounded-3">
-  <div class="container my-5">
-    <div class="row align-items-center">
-      <div class="col-md-6">
-        <img src="{{ top.img }}" alt="Trending Bid Item" class="img-fluid rounded shadow" style="max-width: 300px; height: auto; display: block; margin: 0 auto;">
-      </div>
-      <div class="col-md-6">
-        <h2 class="mb-3">🔥 Trending Bid: {{ top.name }}</h2>
-        <p class="fs-5">This item has attracted {{ top.no_of_people }} bidders! Place your bid before time runs out.</p>
-        <a href="{{ url_for('bids.join_bid', item_id=top.id) }}" class="btn btn-primary btn-lg mt-3">Join the Bid Now</a></div>
-    </div>
-  </div>
-</div>
+
 
 <!-- Ongoing Auctions Section -->
-<h3 class="mb-3 px-4">Ongoing Auctions</h3>
+<h3 class=" mt-3 mb-3 px-4 text-primary">🕒 Ongoing Auctions</h3>
 <div class="row px-4">
   {% for o in obj %}
   <div class="col-md-4 mb-4">
-    <div class="card h-100 text-center shadow-sm">
-      <img src="{{ o.img }}" alt="{{ o.name }}" class="img-fluid rounded" style="width: 100%; aspect-ratio: 1 / 1; object-fit: contain;">
-      <div class="card-body">
+    <div class="card h-100 shadow-sm border-0">
+      <div class="position-relative bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
+        <img src="{{ o.img }}" alt="{{ o.name }}"
+             style="max-height: 100%; max-width: 100%; object-fit: contain;" class="img-fluid p-2" />
+      </div>
+      <div class="card-body text-center">
         <h4 class="card-title">{{ o.name }}</h4>
         <p class="card-text">Base Bid: ₹{{ o.curr_price }}</p>
-        <a href="{{ url_for('bids.join_bid', item_id=o.id) }}" class="btn btn-primary btn-lg mt-3">Join the Bid Now</a>
+
+        {% if o.status == 'active' %}
+        <a href="{{ url_for('bids.join_bid', item_id=o.id) }}" class="btn btn-primary btn-lg mt-3">
+          🛒 Join the Bid Now
+        </a>
+        {% else %}
+          {% if o.winner_id %}
+            {% set winner = Buyers.query.get(o.winner_id) %}
+            <p class="mt-2">🏆 Winner: <strong>{{ winner.username if winner else "N/A" }}</strong></p>
+          {% endif %}
+        <button class="btn btn-secondary btn-lg mt-3" disabled>Auction Ended</button>
+        {% endif %}
       </div>
     </div>
   </div>

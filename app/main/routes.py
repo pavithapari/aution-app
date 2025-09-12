@@ -1,7 +1,7 @@
 from flask import render_template,redirect,url_for,request,session
 from flask import Flask
 from flask import Blueprint
-from app.models import objects,db
+from app.models import objects,db,Buyers
 
 
 main=Blueprint('main', __name__)
@@ -16,9 +16,9 @@ def index():
 @main.route('/buyers/home')
 def home():
     top = objects.query.order_by(objects.no_of_people.desc()).first()
-    all_items = objects.query.all()
+    all_items = objects.query.order_by(objects.status.desc(), objects.no_of_people.desc()).all()
 
-    return render_template('home.html', top=top, obj=all_items)
+    return render_template('home.html', top=top, obj=all_items,Buyers=Buyers)
 
 @main.route('/delete')
 def delete():

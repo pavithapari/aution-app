@@ -46,6 +46,7 @@ class Sellers(db.Model,UserMixin):
     id=db.Column(db.Integer,primary_key=True)
     username = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(120), nullable=False)
+    
 
 
 class objects(db.Model, UserMixin):
@@ -57,5 +58,9 @@ class objects(db.Model, UserMixin):
     no_of_people = db.Column(db.Integer)
     status = db.Column(db.String(20), default='active')  # active or closed
     winner_id = db.Column(db.Integer, db.ForeignKey('buyers.id'), nullable=True)  # store winner
+    seller_id = db.Column(db.Integer, db.ForeignKey('sellers.id'), nullable=False)
+    seller = db.relationship('Sellers', backref='items')
+
+
 
 
