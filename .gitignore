@@ -5,7 +5,6 @@ __pycache__/
 *.log
 
 # Flask
-instance/
 .env
 
 # Virtual Environment
