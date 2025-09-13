@@ -53,7 +53,7 @@
               {% else %}
                 <span class="badge bg-secondary">Closed</span>
                 {% if item.winner_id %}
-                  {% set winner = Buyers.query.get(item.id) %}
+                  {% set winner = Buyers.query.get(item.winner_id) %}
                   <br>🏆 Winner: <strong>{{ winner.username if winner else "N/A" }}</strong>
                 {% endif %}
               {% endif %}
